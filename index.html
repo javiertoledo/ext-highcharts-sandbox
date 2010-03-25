@@ -18,43 +18,92 @@
 	<![endif]-->
 	
 	<!-- Chart Panel -->
-	<script src="chart.js" type="text/javascript"></script>
+	<script src="HighchartPanel.js" type="text/javascript"></script>
+	<script src="ChartWindow.js" type="text/javascript"></script>
 	
 	<script type="text/javascript" charset="utf-8">
 	
-		MyWindowUi = Ext.extend(Ext.Window, {
-		    title: 'Some chart window',
-		    width: 849,
-				layout: 'fit',
-				autoHeight: true,
-		    initComponent: function() {
-		        this.items = [
-		            new Ext.ux.highcharts.Chart({
-									dataName: "Nonsense statistics"
-								})
-		        ];
-		        MyWindowUi.superclass.initComponent.call(this);
-		    }
-		});
+		var data = [
+			["Croissants", 20],
+			["German Croissants", 100],
+			["Bananas", 20]
+		]
+	
+		var chartConfig = {
+			title: "My panel",
+			chartConfig: {
+				chart: {
+					margin: [30, 0, 30, 100],
+					backgroundColor: "#333",
+					borderRadius: 0
+				},
+				credits: {
+					enabled: false
+				},
+				title: {
+					text: "Some random statistics",
+					color: "#ddd"
+				},
+				plotArea: {
+					shadow: null,
+					borderWidth: null,
+					backgroundColor: null
+				},
+				tooltip: {
+					formatter: function() {
+						return '<b>'+ this.point.name +'</b>: '+ this.y + ' Cosas';
+					}
+				},
+				plotOptions: {
+					pie: {
+						allowPointSelect: true,
+						dataLabels: {
+							enabled: true,
+							formatter: function() {
+								if (this.y > 5) return '<div style="text-align: center">' + this.point.name.replace(" ","<br/>") + '</div>';
+							},
+							color: 'white',
+							y: -3,
+							style: {
+								font: '13px Trebuchet MS, Verdana, sans-serif'
+							}
+						}
+					}
+				},
+				legend: {
+					layout: 'vertical',
+					backgroundColor: "#ccc",
+					borderRadius: 5,
+					style: {
+						left: '5px',
+						bottom: '5px',
+						right: 'auto',
+						top: 'auto',
+						font: '11px Trebuchet MS, Verdana, sans-serif'
+					}
+				},
+				series: [{
+					type: 'pie',
+					name: "Thing",
+					data: data
+				}]
+			}
+		};
 		
 		Ext.onReady(function(){
-			var window = new MyWindowUi({
-				pageX: 10,
-				pageY: 400
-			});
-			var window2 = new MyWindowUi({
+			
+			new ChartWindow({
 				pageX: 10,
 				pageY: 10,
-				width: 400
+				config: chartConfig
 			});
-			var window3 = new MyWindowUi({
-				pageX: 420,
-				pageY: 10,
-				width: 400
+			
+			new ChartWindow({
+				pageX: 10,
+				pageY: 420,
+				config: chartConfig
 			});
-			window.show();
-			window2.show();
-			window3.show();
+			
 		});
 		
 	</script>
