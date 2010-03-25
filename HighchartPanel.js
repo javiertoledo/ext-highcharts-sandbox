@@ -34,15 +34,14 @@ Ext.highcharts.ChartPanel = Ext.extend(Ext.Panel,{
 			    if (typeof s.yAxis    != undefined) Ext.apply(opt.yAxis,s.yAxis);
 			    this.backupSeries.push(opt);
 			}
+			// Clear the old series
+			delete this.chartConfig.series
+
+			// Set the new series.
+			this.chartConfig.series = this.backupSeries;
 		}
 		// Clear previous chart.
 		this.chart.destroy();
-        
-		// Clear the old series
-		delete this.chartConfig.series
-        
-		// Set the new series.
-		this.chartConfig.series = this.backupSeries;
         
 		// Recreate chart
 		this.chart = new Highcharts.Chart(this.chartConfig);
