@@ -12,7 +12,6 @@ Ext.highcharts.ChartPanel = Ext.extend(Ext.Panel,{
 		this.chart = new Highcharts.Chart(this.chartConfig);
 		this.un('afterlayout', this.renderChart, this);
 		this.on('afterlayout', this.redrawChart, this);
-		this.on('resize', this.redrawChart, this);
 	},
 	redrawChart: function(){
 		if(!this.backupSeries){
@@ -26,12 +25,12 @@ Ext.highcharts.ChartPanel = Ext.extend(Ext.Panel,{
 						name: s.data[c].name
 					});
 			    }
-			    var opt = {id:'',name:s.name,data:data,options:{}};
-			    if (typeof s.options != undefined && typeof s.options.id != undefined) opt.id = s.options.id;
-			    if (typeof s.options  != undefined) Ext.apply(opt.options,s.options);
-			    if (typeof s.color    != undefined) opt.color = s.color;
-			    if (typeof s.selected != undefined) opt.selected = (s.selected) ? true:false;
-			    if (typeof s.type     != undefined) opt.type  = s.type;
+			    var opt = {id:'',name:s.name,data:data};
+			    if (typeof s.options  != undefined) Ext.apply(opt,s.options);
+				if (typeof s.selected != undefined) opt.selected = (s.selected) ? true:false;
+			    if (typeof s.type     != undefined) opt.type = s.type;
+				
+				//if (typeof s.options.center)  != undefined) opt.center = [s.options.center[0],s.options.center[1]];
 			    if (typeof s.visible  != undefined) opt.visible = (s.visible) ? true:false;
 			    if (typeof s.xAxis    != undefined) Ext.apply(opt.xAxis, s.xAxis);
 			    if (typeof s.yAxis    != undefined) Ext.apply(opt.yAxis,s.yAxis);
